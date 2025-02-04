@@ -4,14 +4,15 @@ const express = require("express");
 const os = require("os");
 
 const app = express();
+// console.log(`top level code executed for the first time for pid ${process.pid}`)
 
 app.get("/", async(req, res) => {
     try {
-        console.log(`API hit by worker process: ${process.pid}`);
+        console.log(`API hit by worker process: ${process.pid} ${cluster.isMaster}`);
         let count = 0;
-        for(let i=0; i<20000000000; i++){
-            count++;
-        }
+        // for(let i=0; i<20000000000; i++){
+        //     count++;
+        // }
         res.status(200).json(`Api hitted and sending response by worker: ${process.pid} ${count}`);
     } catch (error) {
         console.error("Error -> ", error);
@@ -48,5 +49,6 @@ if(cluster.isMaster){
     });
 }else{
     // If this is a worker process, run the server
+    console.log('a new worker function is called because this is not master')
     workerFunction();
 }
