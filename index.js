@@ -31,6 +31,18 @@ const workerFunction = () => {
     }
 }
 
+/**
+ * Install autocannon : npm install -g autocannon
+ * autocannon -c 10 -d 5 http://localhost:8080
+ * -c (No of Connections) - 10 concurrent users
+ * -d (Duration in seconds) - Run for 5 seconds
+ */
+
+// Express server runs in each worker process
+// http.createServer(app).listen(8080, ()=> {
+//     console.log(`Worker ${process.pid} is running on port 8080`)
+// })
+// /*
 // Clustering logic: If this is the master process, fork workers
 if(cluster.isMaster){
     const numOfCpus = os.cpus().length; 
@@ -52,3 +64,4 @@ if(cluster.isMaster){
     console.log('a new worker function is called because this is not master')
     workerFunction();
 }
+// */
